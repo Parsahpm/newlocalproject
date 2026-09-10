@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
 <style>
 /* ===========================================================================
-   OmniBook — "Precision Concierge" design system
-   Tokens are declared in full on bare :root, then redefined for dark.
+   OmniBook — "Precision Concierge"
+   Tokens declared in full on bare :root, then redefined for both dark states.
    =========================================================================== */
 :root{
   --ground:#F6F8FB; --surface:#FFFFFF; --surface-2:#F1F5F9; --surface-3:#E9EEF5;
@@ -20,14 +20,15 @@
   --brand:#059669; --brand-ink:#047857; --brand-wash:#ECFDF5; --brand-line:#A7F3D0;
   --indigo:#4F46E5; --indigo-wash:#EEF2FF; --indigo-line:#C7D2FE;
   --amber:#B45309; --amber-wash:#FFFBEB; --amber-line:#FDE68A;
-  --danger:#DC2626;
+  --danger:#DC2626; --star:#F59E0B;
   --wa-field:#E7E0D8; --wa-bubble:#DCF8C6; --wa-in:#FFFFFF; --wa-ink:#0B3D2E; --wa-meta:#3F6B57;
   --shadow-sm:0 1px 2px rgba(15,23,42,.05);
   --shadow:0 1px 3px rgba(15,23,42,.05), 0 8px 20px -8px rgba(15,23,42,.08);
   --shadow-lg:0 20px 40px -18px rgba(15,23,42,.22), 0 4px 12px -6px rgba(15,23,42,.10);
-  --glass:rgba(255,255,255,.82);
+  --glass:rgba(255,255,255,.84);
+  --scene-ink:rgba(255,255,255,.55);
   --r-sm:8px; --r:12px; --r-lg:16px; --r-xl:24px;
-  --maxw:1180px;
+  --maxw:1200px;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
@@ -38,12 +39,13 @@
     --brand:#34D399; --brand-ink:#6EE7B7; --brand-wash:#07281E; --brand-line:#125140;
     --indigo:#A5B4FC; --indigo-wash:#1B1F3B; --indigo-line:#37407A;
     --amber:#FBBF24; --amber-wash:#2A2113; --amber-line:#5C4718;
-    --danger:#F87171;
+    --danger:#F87171; --star:#FBBF24;
     --wa-field:#0C1613; --wa-bubble:#14503C; --wa-in:#16233A; --wa-ink:#DFF6E9; --wa-meta:#8FC7AC;
     --shadow-sm:0 1px 2px rgba(0,0,0,.4);
     --shadow:0 1px 3px rgba(0,0,0,.5), 0 8px 20px -8px rgba(0,0,0,.55);
     --shadow-lg:0 24px 48px -20px rgba(0,0,0,.7), 0 4px 12px -6px rgba(0,0,0,.5);
-    --glass:rgba(16,27,45,.82);
+    --glass:rgba(16,27,45,.84);
+    --scene-ink:rgba(255,255,255,.32);
     color-scheme:dark;
   }
 }
@@ -54,37 +56,61 @@
   --brand:#34D399; --brand-ink:#6EE7B7; --brand-wash:#07281E; --brand-line:#125140;
   --indigo:#A5B4FC; --indigo-wash:#1B1F3B; --indigo-line:#37407A;
   --amber:#FBBF24; --amber-wash:#2A2113; --amber-line:#5C4718;
-  --danger:#F87171;
+  --danger:#F87171; --star:#FBBF24;
   --wa-field:#0C1613; --wa-bubble:#14503C; --wa-in:#16233A; --wa-ink:#DFF6E9; --wa-meta:#8FC7AC;
   --shadow-sm:0 1px 2px rgba(0,0,0,.4);
   --shadow:0 1px 3px rgba(0,0,0,.5), 0 8px 20px -8px rgba(0,0,0,.55);
   --shadow-lg:0 24px 48px -20px rgba(0,0,0,.7), 0 4px 12px -6px rgba(0,0,0,.5);
-  --glass:rgba(16,27,45,.82);
+  --glass:rgba(16,27,45,.84);
+  --scene-ink:rgba(255,255,255,.32);
   color-scheme:dark;
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
 body{
   margin:0; background:var(--ground); color:var(--ink);
   font-family:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased;
 }
-img{max-width:100%}
+img,svg{max-width:100%}
 a{color:inherit}
 h1,h2,h3,h4{margin:0; text-wrap:balance; letter-spacing:-.02em; line-height:1.15; font-weight:700}
 p{margin:0}
 button,input,textarea,select{font:inherit; color:inherit}
 :focus-visible{outline:2px solid var(--brand); outline-offset:2px; border-radius:4px}
-@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important; scroll-behavior:auto}}
 
 .wrap{width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:20px}
-.eyebrow{
-  font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
-  color:var(--muted);
-}
+.eyebrow{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+.eyebrow.brand{color:var(--brand-ink)}
 .num{font-variant-numeric:tabular-nums}
 .mono{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.dot{width:7px; height:7px; border-radius:999px; background:var(--brand); flex:none}
+.dot.pulse{animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.4; transform:scale(.8)}}
+.reveal{animation:rise .42s cubic-bezier(.2,.7,.3,1) both}
+@keyframes rise{from{opacity:0; transform:translateY(9px)} to{opacity:1; transform:none}}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:10px 16px; border-radius:var(--r-sm); border:1px solid transparent;
+  font-size:14px; font-weight:600; text-decoration:none; cursor:pointer; white-space:nowrap;
+  transition:background .15s ease, border-color .15s ease, transform .1s ease, box-shadow .15s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--brand); color:#fff; box-shadow:var(--shadow-sm)}
+.btn-primary:hover{background:var(--brand-ink)}
+:root[data-theme="dark"] .btn-primary{color:#04231A}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn-primary{color:#04231A}}
+.btn-ghost{background:var(--surface); border-color:var(--line); color:var(--ink)}
+.btn-ghost:hover{background:var(--surface-2); border-color:var(--brand-line)}
+.btn-soft{background:var(--surface-2); border-color:transparent; color:var(--ink)}
+.btn-soft:hover{background:var(--surface-3)}
+.btn-lg{padding:13px 22px; font-size:15px}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.55; cursor:not-allowed}
 
 /* ---------- header ---------- */
 .hdr{
@@ -92,221 +118,255 @@ button,input,textarea,select{font:inherit; color:inherit}
   backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line);
 }
-.hdr-in{display:flex; align-items:center; gap:16px; height:66px}
-.brand{display:flex; align-items:center; gap:9px; font-weight:800; font-size:17px; letter-spacing:-.03em; text-decoration:none}
-.brand svg{display:block; flex:none}
-.nav{display:none; margin-left:14px; gap:22px}
-@media(min-width:900px){.nav{display:flex}}
-.nav a{font-size:14px; font-weight:600; color:var(--ink-2); text-decoration:none}
-.nav a:hover{color:var(--brand)}
-.hdr-right{margin-left:auto; display:flex; align-items:center; gap:10px}
-.live-chip{
-  display:none; align-items:center; gap:7px; padding:5px 11px; border-radius:999px;
+.hdr-in{display:flex; align-items:center; gap:12px; height:66px}
+.brand{display:flex; align-items:center; gap:9px; font-weight:800; font-size:17px; letter-spacing:-.03em; text-decoration:none; flex:none}
+.tag{
+  display:none; align-items:center; gap:6px; white-space:nowrap; flex:none; padding:4px 10px; border-radius:999px;
   background:var(--brand-wash); border:1px solid var(--brand-line); color:var(--brand-ink);
-  font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+  font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
 }
-@media(min-width:640px){.live-chip{display:inline-flex}}
-.dot{width:7px; height:7px; border-radius:999px; background:var(--brand); flex:none}
-.dot.pulse{animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.45; transform:scale(.82)}}
-
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  padding:10px 16px; border-radius:var(--r-sm); border:1px solid transparent;
-  font-size:14px; font-weight:600; text-decoration:none; cursor:pointer;
-  transition:background .15s ease, border-color .15s ease, transform .1s ease;
+@media(min-width:1500px){.tag{display:inline-flex}}
+.nav{display:none; margin-left:4px; gap:16px; white-space:nowrap; min-width:0; overflow:hidden}
+@media(min-width:900px){.nav{display:flex}}
+.nav a{font-size:13px; font-weight:600; color:var(--ink-2); text-decoration:none; padding-block:4px; border-bottom:2px solid transparent}
+.nav a:hover{color:var(--brand-ink)}
+.nav a[aria-current="page"]{color:var(--brand-ink); border-bottom-color:var(--brand)}
+.hdr-right{margin-left:auto; display:flex; align-items:center; gap:9px; flex:none}
+.sync{
+  display:none; align-items:center; gap:7px; white-space:nowrap; flex:none; padding:6px 12px; border-radius:999px;
+  background:var(--surface-2); border:1px solid var(--line); font-size:12px; font-weight:600; color:var(--ink-2);
 }
-.btn:active{transform:translateY(1px)}
-.btn-primary{background:var(--brand); color:#fff; box-shadow:var(--shadow-sm)}
-.btn-primary:hover{background:var(--brand-ink)}
-:root[data-theme="dark"] .btn-primary, :root:not([data-theme="light"]) .btn-primary{color:#04231A}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero h1 .em{background:linear-gradient(100deg,var(--brand),#6EE7B7 55%,#5EEAD4)}}
-:root[data-theme="dark"] .hero h1 .em{background:linear-gradient(100deg,var(--brand),#6EE7B7 55%,#5EEAD4)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .btn-primary{color:#fff}}
-.btn-ghost{background:var(--surface); border-color:var(--line); color:var(--ink)}
-.btn-ghost:hover{background:var(--surface-2)}
-.btn-lg{padding:13px 22px; font-size:15px}
-.btn[disabled]{opacity:.55; cursor:not-allowed}
+@media(min-width:1300px){.sync{display:inline-flex}}
+.bell{position:relative; display:none; padding:7px; border-radius:999px; border:0; background:transparent; color:var(--ink-2); cursor:pointer}
+@media(min-width:640px){.bell{display:grid; place-items:center}}
+.bell:hover{background:var(--surface-2); color:var(--ink)}
+.bell i{position:absolute; top:6px; right:6px; width:7px; height:7px; border-radius:999px; background:var(--danger); border:2px solid var(--surface)}
+.me{width:32px; height:32px; border-radius:999px; flex:none; display:grid; place-items:center;
+  background:linear-gradient(140deg,var(--brand),var(--indigo)); color:#fff; font-size:12px; font-weight:800;
+  box-shadow:0 0 0 2px var(--surface), 0 0 0 3px var(--brand-line);}
+.hide-sm{display:none}
+@media(min-width:1180px){.hide-sm{display:inline-flex}}
+/* Very narrow phones: shrink the header CTA and drop the avatar so the bar fits. */
+@media(max-width:419px){
+  .hdr-in{gap:8px}
+  .hdr-right .btn{padding:9px 11px; font-size:13px}
+  .me{display:none}
+}
 
 /* ---------- hero ---------- */
-.hero{padding-block:56px 44px; position:relative; overflow:hidden}
+.hero{padding-block:48px 40px; position:relative; overflow:hidden; text-align:center}
 .hero::before{
-  content:""; position:absolute; inset:-160px 0 auto -10%; height:420px; pointer-events:none;
-  background:radial-gradient(60% 60% at 30% 40%, color-mix(in srgb, var(--brand) 16%, transparent), transparent 70%);
+  content:""; position:absolute; inset:-200px 0 auto 50%; translate:-50% 0;
+  width:min(940px,120%); height:520px; pointer-events:none;
+  background:
+    radial-gradient(48% 60% at 50% 45%, color-mix(in srgb, var(--brand) 15%, transparent), transparent 72%),
+    radial-gradient(38% 50% at 78% 30%, color-mix(in srgb, var(--indigo) 11%, transparent), transparent 70%);
 }
-.hero-grid{position:relative; display:grid; gap:40px; align-items:center}
-@media(min-width:980px){.hero-grid{grid-template-columns:1.05fr .95fr; gap:56px}}
-.hero h1{font-size:clamp(32px,4.6vw,46px); letter-spacing:-.033em; line-height:1.08; font-weight:800}
+.hero-in{position:relative; display:flex; flex-direction:column; align-items:center}
+.trustbar{
+  display:inline-flex; align-items:center; gap:9px; flex-wrap:wrap; justify-content:center;
+  padding:6px 14px; border-radius:999px; background:var(--surface); border:1px solid var(--line);
+  box-shadow:var(--shadow-sm); margin-bottom:20px;
+}
+.trustbar .sep{width:1px; height:13px; background:var(--line); display:none}
+@media(min-width:620px){.trustbar .sep{display:block}}
+.trustbar b{font-size:12px; font-weight:700; color:var(--brand-ink); display:inline-flex; align-items:center; gap:5px}
+.hero h1{font-size:clamp(30px,4.2vw,45px); letter-spacing:-.033em; line-height:1.1; font-weight:800; max-width:23ch}
 .hero h1 .em{
   background:linear-gradient(100deg,var(--brand),var(--brand-ink) 55%,#0E7490);
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }
-.hero .sub{margin-top:18px; font-size:17px; color:var(--ink-2); max-width:52ch}
-.hero-cta{display:flex; flex-wrap:wrap; gap:10px; margin-top:26px}
-.pill-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
-.pill{
-  display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:999px;
-  background:var(--surface); border:1px solid var(--line); font-size:12.5px; font-weight:600; color:var(--ink-2);
-  box-shadow:var(--shadow-sm);
-}
-.pill svg{color:var(--brand); flex:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero h1 .em{background:linear-gradient(100deg,var(--brand),#6EE7B7 55%,#5EEAD4); -webkit-background-clip:text; background-clip:text}}
+:root[data-theme="dark"] .hero h1 .em{background:linear-gradient(100deg,var(--brand),#6EE7B7 55%,#5EEAD4); -webkit-background-clip:text; background-clip:text}
+.hero .sub{margin-top:16px; font-size:16.5px; color:var(--ink-2); max-width:60ch}
 
-/* WhatsApp thread — the hero thesis */
-.thread{
-  background:var(--wa-field); border:1px solid var(--line); border-radius:var(--r-lg);
-  box-shadow:var(--shadow-lg); overflow:hidden; max-width:420px; width:100%; margin-inline:auto;
+/* omnisearch */
+.omni{
+  width:100%; max-width:940px; margin-top:26px; background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow-lg);
+  padding:7px; display:grid; gap:7px; text-align:left;
 }
-.thread-top{
-  display:flex; align-items:center; gap:10px; padding:11px 14px;
-  background:var(--brand-ink); color:#fff;
+@media(min-width:860px){.omni{grid-template-columns:1.5fr 1fr 1fr auto; align-items:stretch}}
+.omni-f{
+  display:flex; align-items:center; gap:10px; padding:9px 13px; border-radius:var(--r-sm);
+  background:var(--surface-2); border:1px solid transparent; min-width:0;
+  transition:background .15s, border-color .15s;
 }
-:root[data-theme="dark"] .thread-top,
-:root:not([data-theme="light"]) .thread-top{background:#0A3B2C}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .thread-top{background:var(--brand-ink)}}
-.thread-av{
-  width:32px; height:32px; border-radius:999px; background:rgba(255,255,255,.18);
-  display:grid; place-items:center; font-weight:800; font-size:12px; flex:none;
+.omni-f:hover{background:var(--surface-3)}
+.omni-f:focus-within{background:var(--surface); border-color:var(--brand); box-shadow:0 0 0 3px color-mix(in srgb, var(--brand) 16%, transparent)}
+.omni-f svg{color:var(--muted); flex:none}
+.omni-f .lab{display:block; font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); line-height:1}
+.omni-f input,.omni-f select{
+  width:100%; border:0; background:transparent; padding:0; margin-top:3px;
+  font-size:14.5px; font-weight:600; outline:none; min-width:0;
 }
-.thread-top b{display:block; font-size:13.5px; line-height:1.25}
-.thread-top span{font-size:11px; opacity:.82}
-.thread-body{padding:14px; display:flex; flex-direction:column; gap:9px; min-height:296px}
-.msg{
-  max-width:86%; padding:9px 12px; border-radius:12px; font-size:13.5px; line-height:1.5;
-  box-shadow:0 1px 1px rgba(0,0,0,.08); color:var(--wa-ink);
-}
-.msg.in{background:var(--wa-in); border-top-left-radius:3px; align-self:flex-start}
-.msg.out{background:var(--wa-bubble); border-top-right-radius:3px; align-self:flex-end}
-.msg .meta{display:block; margin-top:4px; font-size:10.5px; color:var(--wa-meta); text-align:right}
-.msg b{font-weight:700}
-.quick{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap}
-.quick span{
-  padding:4px 9px; border-radius:6px; background:rgba(5,150,105,.12);
-  border:1px solid var(--brand-line); font-size:11px; font-weight:700; color:var(--wa-ink);
-}
-.reveal{animation:rise .42s cubic-bezier(.2,.7,.3,1) both}
-@keyframes rise{from{opacity:0; transform:translateY(9px)} to{opacity:1; transform:none}}
+.omni-f select{appearance:none; cursor:pointer}
+.omni-f input::placeholder{color:var(--muted); font-weight:400}
+.omni .btn{border-radius:var(--r-sm)}
+@media(min-width:860px){.omni .btn{padding-inline:22px}}
 
-/* ---------- stats ---------- */
+/* category pills */
+.cats{display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:20px}
+.cat{
+  display:inline-flex; align-items:center; gap:8px; padding:7px 14px 7px 8px; border-radius:999px;
+  background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow-sm);
+  font-size:13px; font-weight:600; color:var(--ink); cursor:pointer; transition:all .15s ease;
+}
+.cat i{width:24px; height:24px; border-radius:999px; display:grid; place-items:center; background:var(--surface-2); color:var(--brand-ink); flex:none; transition:all .15s ease}
+.cat:hover{border-color:var(--brand-line)}
+.cat:hover i{background:var(--brand); color:#fff}
+.cat[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
+:root[data-theme="dark"] .cat[aria-pressed="true"]{color:#04231A}
+.cat[aria-pressed="true"] i{background:rgba(255,255,255,.22); color:#fff}
+
+/* stat bar */
 .stats{
+  width:100%; max-width:940px; margin-top:28px;
   display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line);
-  border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow);
+  border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow); text-align:center;
 }
-@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
-.stat{background:var(--surface); padding:20px 18px}
-.stat .v{font-size:27px; font-weight:800; letter-spacing:-.03em; line-height:1.1}
-.stat .k{margin-top:3px; font-size:12.5px; color:var(--muted); font-weight:500}
+@media(min-width:720px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{background:var(--surface); padding:17px 14px}
+.stat .v{font-size:25px; font-weight:800; letter-spacing:-.03em; line-height:1.1; display:flex; align-items:center; justify-content:center; gap:5px}
 .stat .v.brand{color:var(--brand)}
+.stat .k{margin-top:3px; font-size:12px; color:var(--muted); font-weight:500}
+
+/* ---------- value strip ---------- */
+.strip{background:var(--surface-2); border-block:1px solid var(--line); padding-block:20px}
+.strip-in{display:flex; flex-wrap:wrap; align-items:center; gap:16px; justify-content:space-between}
+.strip-l{display:flex; align-items:center; gap:14px; min-width:0}
+.strip-ic{width:44px; height:44px; border-radius:12px; flex:none; display:grid; place-items:center; background:var(--brand-wash); border:1px solid var(--brand-line); color:var(--brand-ink)}
+.strip h2{font-size:15.5px}
+.strip p{font-size:13.5px; color:var(--ink-2); margin-top:2px; max-width:70ch}
+.strip-r{display:flex; gap:8px; flex-wrap:wrap}
+.chipx{display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:999px; background:var(--surface); border:1px solid var(--line); font-size:12.5px; font-weight:600}
+.chipx svg{color:var(--brand)}
 
 /* ---------- sections ---------- */
-section{scroll-margin-top:80px}
-.sec{padding-block:56px}
-.sec-head{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:26px}
-.sec-head h2{font-size:clamp(24px,3.3vw,32px); margin-top:8px}
-.sec-head p{color:var(--ink-2); margin-top:8px; max-width:58ch}
+section{scroll-margin-top:78px}
+.sec{padding-block:54px}
+.sec-head{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:24px}
+.sec-head h2{font-size:clamp(23px,3.2vw,32px); margin-top:7px}
+.sec-head p{color:var(--ink-2); margin-top:7px; max-width:60ch}
+.sec-head .tools{display:flex; gap:8px; flex-wrap:wrap}
+.center{text-align:center; margin-inline:auto; max-width:62ch}
+.center p{margin-inline:auto}
 
-/* provider grid */
-.filters{display:flex; gap:7px; flex-wrap:wrap; margin-bottom:20px}
-.chip{
-  padding:7px 14px; border-radius:999px; border:1px solid var(--line); background:var(--surface);
-  font-size:13px; font-weight:600; color:var(--ink-2); cursor:pointer; transition:all .15s ease;
-}
-.chip:hover{border-color:var(--brand-line); color:var(--brand-ink)}
-.chip[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
-:root[data-theme="dark"] .chip[aria-pressed="true"]{color:#04231A}
-
-.grid{display:grid; gap:16px; grid-template-columns:1fr}
-@media(min-width:620px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(min-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
-
+/* ---------- specialist cards ---------- */
+.grid{display:grid; gap:18px; grid-template-columns:1fr}
+@media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1040px){.grid{grid-template-columns:repeat(4,1fr)}}
 .card{
   background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg);
-  padding:18px; display:flex; flex-direction:column; gap:12px; box-shadow:var(--shadow-sm);
+  padding:13px; display:flex; flex-direction:column; gap:11px; box-shadow:var(--shadow-sm);
   transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
 }
-.card:hover{border-color:var(--brand-line); box-shadow:var(--shadow); transform:translateY(-2px)}
-.card-top{display:flex; align-items:flex-start; gap:12px}
-.avatar{
-  width:44px; height:44px; border-radius:12px; flex:none; display:grid; place-items:center;
-  font-weight:800; font-size:15px; letter-spacing:-.02em;
-  background:var(--brand-wash); color:var(--brand-ink); border:1px solid var(--brand-line);
-}
-.avatar.cat-legal{background:var(--indigo-wash); color:var(--indigo); border-color:var(--indigo-line)}
-.avatar.cat-beauty{background:var(--amber-wash); color:var(--amber); border-color:var(--amber-line)}
-.card h3{font-size:16.5px; letter-spacing:-.02em}
-.card .spec{font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:var(--brand-ink); margin-top:3px}
-.card .where{font-size:13px; color:var(--muted); margin-top:5px}
-.rating{margin-left:auto; display:flex; align-items:center; gap:4px; font-size:13px; font-weight:700; flex:none}
-.rating svg{color:#F59E0B}
-.rating small{color:var(--muted); font-weight:500}
-.card-mid{
-  border-block:1px solid var(--line-soft); padding-block:11px;
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-}
-.card-mid .svc{font-size:13px; font-weight:600; line-height:1.35}
-.card-mid .dur{font-size:12px; color:var(--muted)}
-.price{font-size:19px; font-weight:800; letter-spacing:-.02em; white-space:nowrap}
-.card-foot{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:auto}
-.slot-note{font-size:12px; color:var(--ink-2); display:flex; align-items:center; gap:6px; min-width:0}
-.slot-note b{font-weight:700; color:var(--ink)}
-.badge{
-  display:inline-flex; align-items:center; gap:5px; padding:3px 9px; border-radius:999px;
-  font-size:11px; font-weight:700; letter-spacing:.03em;
-  background:var(--brand-wash); color:var(--brand-ink); border:1px solid var(--brand-line);
-}
-.skeleton{height:214px; border-radius:var(--r-lg); background:var(--surface-2); border:1px solid var(--line); animation:shim 1.4s ease-in-out infinite}
-@keyframes shim{0%,100%{opacity:1} 50%{opacity:.55}}
+.card:hover{border-color:var(--brand-line); box-shadow:var(--shadow-lg); transform:translateY(-3px)}
 
-/* ---------- steps (a real sequence, so it is numbered) ---------- */
-.steps{display:grid; gap:18px; counter-reset:step}
-@media(min-width:820px){.steps{grid-template-columns:repeat(3,1fr)}}
-.step{position:relative; padding-left:52px}
-.step::before{
-  counter-increment:step; content:counter(step,decimal-leading-zero);
-  position:absolute; left:0; top:0; width:38px; height:38px; border-radius:10px;
-  display:grid; place-items:center; font-size:13px; font-weight:800;
-  background:var(--surface); border:1px solid var(--line); color:var(--brand-ink);
-  font-family:"JetBrains Mono",monospace;
+/* media panel: a built scene, not a photo — no external asset to break */
+.media{position:relative; aspect-ratio:5/4; border-radius:var(--r); overflow:hidden; flex:none}
+.media .scene{position:absolute; inset:0; width:100%; height:100%; display:block}
+.media.cat-medical  {background:linear-gradient(158deg,#E6F6EF 0%,#BFE6D6 46%,#7FC7AC 100%)}
+.media.cat-beauty   {background:linear-gradient(158deg,#FBEFE4 0%,#F0D8C2 46%,#DDB795 100%)}
+.media.cat-legal    {background:linear-gradient(158deg,#E7EBF6 0%,#C6CFE6 46%,#97A5C7 100%)}
+.media.cat-wellness {background:linear-gradient(158deg,#E4F2EC 0%,#C2E3D6 46%,#93C9B4 100%)}
+.media.cat-dental   {background:linear-gradient(158deg,#E6F0F8 0%,#C7DFEF 46%,#96C2DD 100%)}
+.media.cat-financial{background:linear-gradient(158deg,#EDEBF8 0%,#D2CDEB 46%,#A9A1D4 100%)}
+:root[data-theme="dark"] .media.cat-medical  {background:linear-gradient(158deg,#0C2A22 0%,#124434 46%,#186047 100%)}
+:root[data-theme="dark"] .media.cat-beauty   {background:linear-gradient(158deg,#2A1F16 0%,#43301F 46%,#5D4229 100%)}
+:root[data-theme="dark"] .media.cat-legal    {background:linear-gradient(158deg,#161C2E 0%,#232C46 46%,#333E63 100%)}
+:root[data-theme="dark"] .media.cat-wellness {background:linear-gradient(158deg,#0E2620 0%,#153C31 46%,#1D5544 100%)}
+:root[data-theme="dark"] .media.cat-dental   {background:linear-gradient(158deg,#0E2130 0%,#153349 46%,#1D4763 100%)}
+:root[data-theme="dark"] .media.cat-financial{background:linear-gradient(158deg,#1B1830 0%,#282349 46%,#383063 100%)}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .media.cat-medical  {background:linear-gradient(158deg,#0C2A22 0%,#124434 46%,#186047 100%)}
+  :root:not([data-theme="light"]) .media.cat-beauty   {background:linear-gradient(158deg,#2A1F16 0%,#43301F 46%,#5D4229 100%)}
+  :root:not([data-theme="light"]) .media.cat-legal    {background:linear-gradient(158deg,#161C2E 0%,#232C46 46%,#333E63 100%)}
+  :root:not([data-theme="light"]) .media.cat-wellness {background:linear-gradient(158deg,#0E2620 0%,#153C31 46%,#1D5544 100%)}
+  :root:not([data-theme="light"]) .media.cat-dental   {background:linear-gradient(158deg,#0E2130 0%,#153349 46%,#1D4763 100%)}
+  :root:not([data-theme="light"]) .media.cat-financial{background:linear-gradient(158deg,#1B1830 0%,#282349 46%,#383063 100%)}
 }
-.step h3{font-size:16.5px}
-.step p{margin-top:7px; font-size:14px; color:var(--ink-2)}
+.media .glyph{position:absolute; right:10px; bottom:9px; color:var(--scene-ink); pointer-events:none}
+.ov{
+  position:absolute; display:inline-flex; align-items:center; gap:6px; padding:4px 9px;
+  border-radius:999px; background:var(--glass); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--line); font-size:11.5px; font-weight:700; box-shadow:var(--shadow-sm); color:var(--ink);
+}
+.ov.tl{top:9px; left:9px; white-space:nowrap; max-width:calc(100% - 18px)}
+.ov.tr{top:9px; right:9px; border-radius:7px}
+.ov svg{color:var(--star)}
+.ov small{color:var(--muted); font-weight:500}
 
-/* ---------- pillars ---------- */
-.pillars{display:grid; gap:16px}
-@media(min-width:820px){.pillars{grid-template-columns:repeat(3,1fr)}}
-.pillar{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:22px; box-shadow:var(--shadow-sm)}
-.pillar .ic{width:40px; height:40px; border-radius:11px; display:grid; place-items:center; background:var(--brand-wash); color:var(--brand-ink); border:1px solid var(--brand-line); margin-bottom:14px}
-.pillar h3{font-size:16.5px}
-.pillar p{margin-top:8px; font-size:14px; color:var(--ink-2)}
-.metric{margin-top:14px; padding-top:12px; border-top:1px solid var(--line-soft); display:flex; align-items:baseline; gap:8px}
-.metric b{font-size:22px; font-weight:800; letter-spacing:-.02em; color:var(--brand)}
-.metric span{font-size:12.5px; color:var(--muted)}
+.card .vtag{display:flex; align-items:center; gap:5px; color:var(--brand-ink); font-size:10.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; line-height:1.3}
+.card h3{font-size:16px; letter-spacing:-.02em; margin-top:4px}
+.card .where{font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.45}
+.disp{
+  display:flex; align-items:center; gap:7px; padding:7px 10px; border-radius:var(--r-sm);
+  background:var(--surface-2); color:var(--brand-ink); font-size:12px; font-weight:600; line-height:1.3;
+}
+.disp svg{flex:none}
+.pricerow{display:flex; align-items:flex-end; justify-content:space-between; gap:10px; padding-top:11px; margin-top:auto; border-top:1px solid var(--line-soft)}
+.pricerow .k{font-size:11.5px; color:var(--muted); display:block}
+.pricerow .v{font-size:18px; font-weight:800; letter-spacing:-.02em}
+.pricerow .v small{font-size:11.5px; font-weight:500; color:var(--muted)}
+.left{padding:3px 9px; border-radius:6px; background:var(--brand-wash); border:1px solid var(--brand-line); color:var(--brand-ink); font-size:11px; font-weight:700; white-space:nowrap}
+.card-actions{margin-top:0}
+.skeleton{aspect-ratio:5/4; border-radius:var(--r-lg); background:var(--surface-2); border:1px solid var(--line); animation:shim 1.4s ease-in-out infinite}
+@keyframes shim{0%,100%{opacity:1} 50%{opacity:.5}}
+.empty{grid-column:1/-1; padding:34px; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:var(--r-lg)}
+
+/* ---------- feature pillars ---------- */
+.pillars{display:grid; gap:18px}
+@media(min-width:880px){.pillars{grid-template-columns:repeat(3,1fr)}}
+.pillar{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:22px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column}
+.pillar .ic{width:48px; height:48px; border-radius:13px; display:grid; place-items:center; margin-bottom:15px; flex:none}
+.pillar.p1 .ic{background:var(--brand-wash); border:1px solid var(--brand-line); color:var(--brand-ink)}
+.pillar.p2 .ic{background:var(--indigo-wash); border:1px solid var(--indigo-line); color:var(--indigo)}
+.pillar.p3 .ic{background:var(--amber-wash); border:1px solid var(--amber-line); color:var(--amber)}
+.pillar h3{font-size:17px}
+.pillar p{margin-top:9px; font-size:14px; color:var(--ink-2)}
+.viz{margin-top:16px; padding:12px; border-radius:var(--r); background:var(--surface-2); border:1px solid var(--line-soft)}
+.viz-h{display:flex; align-items:center; gap:7px; font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); margin-bottom:9px}
+.bubble{background:var(--wa-bubble); color:var(--wa-ink); padding:9px 11px; border-radius:10px; border-top-left-radius:3px; font-size:12.5px; line-height:1.45; box-shadow:0 1px 1px rgba(0,0,0,.07)}
+.bubble b{font-weight:700}
+.bar-row{display:flex; justify-content:space-between; font-size:12px; font-weight:600; margin-bottom:5px}
+.bar-row span:last-child{color:var(--brand); font-weight:700}
+.bar{height:7px; border-radius:999px; background:var(--surface-3); overflow:hidden; margin-bottom:12px}
+.bar i{display:block; height:100%; border-radius:999px; background:var(--brand)}
+.bar.alt i{background:var(--indigo)}
+.bar-row.alt span:last-child{color:var(--indigo)}
+.metric{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.metric .mv{display:flex; align-items:center; gap:9px}
+.metric b{font-size:21px; font-weight:800; letter-spacing:-.02em; display:block; line-height:1.1}
+.metric span{font-size:12px; color:var(--muted)}
+.metric .sla{padding:3px 9px; border-radius:6px; background:var(--surface); border:1px solid var(--line); font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--brand-ink)}
 
 /* ---------- provider CTA ---------- */
 .cta{
-  background:linear-gradient(145deg,#0F172A,#132A3F);
-  border-radius:var(--r-xl); padding:34px 26px; color:#E8EEF7; position:relative; overflow:hidden;
-  box-shadow:var(--shadow-lg);
+  background:linear-gradient(145deg,#0F172A,#14304A); border-radius:var(--r-xl);
+  padding:36px 26px; color:#E8EEF7; position:relative; overflow:hidden; box-shadow:var(--shadow-lg);
 }
 .cta::after{
-  content:""; position:absolute; right:-90px; bottom:-110px; width:320px; height:320px; border-radius:999px;
-  background:radial-gradient(circle, rgba(5,150,105,.36), transparent 68%); pointer-events:none;
+  content:""; position:absolute; right:-100px; bottom:-130px; width:360px; height:360px; border-radius:999px;
+  background:radial-gradient(circle, rgba(5,150,105,.38), transparent 68%); pointer-events:none;
 }
 .cta-grid{position:relative; display:grid; gap:26px}
-@media(min-width:920px){.cta-grid{grid-template-columns:1fr 380px; gap:40px; align-items:start}}
-.cta h2{font-size:clamp(23px,3.1vw,30px); color:#fff}
-.cta p{margin-top:12px; color:#AFC0D4; max-width:50ch}
-.cta .eyebrow{color:#6EE7B7}
-.checks{margin-top:20px; display:grid; gap:9px}
+@media(min-width:960px){.cta-grid{grid-template-columns:1fr 380px; gap:44px; align-items:start}}
+.cta .badge2{display:inline-flex; align-items:center; gap:7px; padding:5px 12px; border-radius:999px; background:rgba(255,255,255,.09); color:#6EE7B7; font-size:12px; font-weight:600; margin-bottom:14px}
+.cta h2{font-size:clamp(23px,3.1vw,31px); color:#fff}
+.cta p{margin-top:12px; color:#AFC0D4; max-width:52ch}
+.checks{margin-top:20px; display:grid; gap:10px}
 .checks div{display:flex; align-items:center; gap:9px; font-size:14px; color:#C9D6E5}
 .checks svg{color:#34D399; flex:none}
 
+/* ---------- forms ---------- */
 .form{background:var(--surface); border-radius:var(--r-lg); padding:20px; display:grid; gap:11px; box-shadow:var(--shadow-lg)}
 .form h3{font-size:16px; color:var(--ink)}
 .field{display:grid; gap:5px}
 .field label{font-size:12px; font-weight:700; color:var(--ink-2)}
 .field input,.field textarea,.field select{
   width:100%; padding:10px 12px; border-radius:var(--r-sm); border:1px solid var(--line);
-  background:var(--surface-2); color:var(--ink); font-size:14px; transition:border-color .15s, box-shadow .15s;
+  background:var(--surface-2); color:var(--ink); font-size:14px; transition:border-color .15s, box-shadow .15s, background .15s;
 }
 .field input::placeholder,.field textarea::placeholder{color:var(--muted)}
 .field input:focus,.field textarea:focus,.field select:focus{
@@ -320,21 +380,18 @@ section{scroll-margin-top:80px}
 
 /* ---------- modal ---------- */
 .modal[hidden]{display:none!important}
-.modal{
-  position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:16px;
-  background:rgba(8,15,28,.55); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px);
-}
-.sheet{
-  background:var(--surface); border-radius:var(--r-lg); width:100%; max-width:460px;
+.modal{position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:16px;
+  background:rgba(8,15,28,.55); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px)}
+.sheet{background:var(--surface); border-radius:var(--r-lg); width:100%; max-width:470px;
   box-shadow:var(--shadow-lg); border:1px solid var(--line); overflow:hidden;
   max-height:calc(100dvh - 32px); display:flex; flex-direction:column;
-  animation:rise .25s cubic-bezier(.2,.7,.3,1) both;
-}
+  animation:rise .25s cubic-bezier(.2,.7,.3,1) both}
 .sheet-top{display:flex; align-items:center; gap:10px; padding:14px 18px; background:var(--brand); color:#fff}
 :root[data-theme="dark"] .sheet-top{color:#04231A}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .sheet-top{color:#04231A}}
 .sheet-top b{font-size:15px; flex:1}
 .x{background:none; border:0; cursor:pointer; padding:4px; border-radius:6px; color:inherit; display:grid; place-items:center}
-.x:hover{background:rgba(255,255,255,.18)}
+.x:hover{background:rgba(255,255,255,.2)}
 .sheet-body{padding:18px; display:grid; gap:14px; overflow-y:auto}
 .summary{background:var(--surface-2); border:1px solid var(--line); border-radius:var(--r); padding:13px; display:grid; gap:7px}
 .summary .row{display:flex; justify-content:space-between; gap:12px; font-size:13.5px}
@@ -342,37 +399,33 @@ section{scroll-margin-top:80px}
 .summary .row b{font-weight:700; text-align:right}
 .summary .total{border-top:1px solid var(--line); padding-top:8px; margin-top:1px}
 .summary .total b{font-size:17px; color:var(--brand)}
-.slots{display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:7px; max-height:172px; overflow-y:auto; padding:2px}
-.slot{
-  padding:9px 6px; border-radius:var(--r-sm); border:1px solid var(--line); background:var(--surface-2);
+.slots{display:grid; grid-template-columns:repeat(auto-fill,minmax(98px,1fr)); gap:7px; max-height:176px; overflow-y:auto; padding:2px}
+.slot{padding:9px 6px; border-radius:var(--r-sm); border:1px solid var(--line); background:var(--surface-2);
   font-size:12.5px; font-weight:600; cursor:pointer; text-align:center; line-height:1.3;
-  font-variant-numeric:tabular-nums; transition:all .12s ease;
-}
+  font-variant-numeric:tabular-nums; transition:all .12s ease}
 .slot:hover{border-color:var(--brand); color:var(--brand-ink)}
 .slot[aria-pressed="true"]{background:var(--brand); border-color:var(--brand); color:#fff}
 :root[data-theme="dark"] .slot[aria-pressed="true"]{color:#04231A}
 .slot small{display:block; font-weight:500; opacity:.75; font-size:10.5px}
 .ok-panel{text-align:center; padding:12px 4px}
-.ok-panel .tick{width:52px; height:52px; border-radius:999px; background:var(--brand-wash); border:1px solid var(--brand-line); color:var(--brand-ink); display:grid; place-items:center; margin:0 auto 14px}
+.ok-panel .tick{width:54px; height:54px; border-radius:999px; background:var(--brand-wash); border:1px solid var(--brand-line); color:var(--brand-ink); display:grid; place-items:center; margin:0 auto 14px}
 .ok-panel h3{font-size:19px}
 .ok-panel p{margin-top:8px; font-size:14px; color:var(--ink-2)}
 .ref{margin-top:14px; padding:11px; border-radius:var(--r-sm); background:var(--surface-2); border:1px dashed var(--line)}
-.ref span{display:block; font-size:11px; color:var(--muted); font-weight:700; letter-spacing:.08em; text-transform:uppercase}
+.ref span{display:block; font-size:10.5px; color:var(--muted); font-weight:700; letter-spacing:.08em; text-transform:uppercase}
 .ref b{font-size:17px; letter-spacing:.04em}
 
 /* ---------- footer ---------- */
-.ft{border-top:1px solid var(--line); background:var(--surface); padding-block:34px 26px; margin-top:22px}
+.ft{border-top:1px solid var(--line); background:var(--surface); padding-block:34px 26px; margin-top:20px}
 .ft-grid{display:grid; gap:26px}
-@media(min-width:760px){.ft-grid{grid-template-columns:1.5fr 1fr 1fr 1fr}}
-.ft h4{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:11px; font-weight:700}
+@media(min-width:760px){.ft-grid{grid-template-columns:1.6fr 1fr 1fr 1fr}}
+.ft h4{font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:11px; font-weight:700}
 .ft ul{list-style:none; margin:0; padding:0; display:grid; gap:8px}
 .ft li{font-size:13.5px; color:var(--ink-2)}
-.ft .blurb{font-size:13.5px; color:var(--ink-2); margin-top:12px; max-width:38ch}
-.ft-bottom{
-  margin-top:26px; padding-top:18px; border-top:1px solid var(--line-soft);
-  display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
-  font-size:12.5px; color:var(--muted);
-}
+.ft .blurb{font-size:13.5px; color:var(--ink-2); margin-top:12px; max-width:40ch}
+.ft-trust{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px}
+.ft-bottom{margin-top:26px; padding-top:18px; border-top:1px solid var(--line-soft);
+  display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; font-size:12.5px; color:var(--muted)}
 .stack-line{display:flex; flex-wrap:wrap; gap:7px}
 .stack-line span{padding:3px 9px; border-radius:6px; background:var(--surface-2); border:1px solid var(--line); font-size:11px; font-weight:600}
 </style>
@@ -391,14 +444,22 @@ section{scroll-margin-top:80px}
       </svg>
       OmniBook
     </a>
+    <span class="tag"><i class="dot pulse"></i>WhatsApp Connected</span>
     <nav class="nav">
-      <a href="#specialists">Find specialists</a>
-      <a href="#how">How it works</a>
-      <a href="#providers">For providers</a>
+      <a href="#specialists" aria-current="page">Find services</a>
+      <a href="#how">How booking works</a>
+      <a href="#providers">For businesses</a>
+      <a href="#pricing">Pricing</a>
     </nav>
     <div class="hdr-right">
-      <span class="live-chip" id="apiChip"><i class="dot pulse"></i><span id="apiChipText">Connecting</span></span>
-      <a class="btn btn-primary" href="#specialists">Book a slot</a>
+      <span class="sync" id="apiChip"><i class="dot pulse"></i><span id="apiChipText">Connecting</span></span>
+      <button class="bell" type="button" aria-label="Notifications">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+        <i></i>
+      </button>
+      <a class="btn btn-soft hide-sm" href="#specialists">My bookings</a>
+      <a class="btn btn-primary" href="#providers">Switch to provider</a>
+      <span class="me" aria-hidden="true">AR</span>
     </div>
   </div>
 </header>
@@ -407,131 +468,149 @@ section{scroll-margin-top:80px}
 
   <!-- HERO ------------------------------------------------------------- -->
   <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="eyebrow">WhatsApp Cloud API · New York</span>
-        <h1>Book trusted specialists in seconds.<br><span class="em">Confirmed on WhatsApp.</span></h1>
-        <p class="sub">
-          Dermatologists, dentists, colourists, physios and legal counsel — real availability,
-          synced to the specialist's master calendar. The confirmation lands in the one app
-          your client already has open.
-        </p>
-        <div class="hero-cta">
-          <a class="btn btn-primary btn-lg" href="#specialists">See today's availability</a>
-          <a class="btn btn-ghost btn-lg" href="#providers">List your practice</a>
-        </div>
-        <div class="pill-row">
-          <span class="pill">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            No app install
-          </span>
-          <span class="pill">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            Pay at the clinic
-          </span>
-          <span class="pill">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            HIPAA &amp; GDPR safeguards
-          </span>
-        </div>
+    <div class="wrap hero-in">
+      <div class="trustbar">
+        <span class="eyebrow"><i class="dot pulse" style="display:inline-block;margin-right:6px"></i>Direct WhatsApp integration engine</span>
+        <span class="sep"></span>
+        <b>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          100% guaranteed slots
+        </b>
       </div>
 
-      <!-- the thesis: the confirmation itself -->
-      <div class="thread" role="img" aria-label="A WhatsApp thread in which OmniBook confirms an appointment with Dr. Elena Vance and the client replies to confirm.">
-        <div class="thread-top">
-          <div class="thread-av">OB</div>
-          <div>
-            <b>OmniBook Dispatch</b>
-            <span>Business account · online</span>
+      <h1>Book trusted specialists in seconds.<br><span class="em">Confirmed instantly via WhatsApp.</span></h1>
+      <p class="sub">From medical clinics and dermatologists to luxury beauty studios and legal counsel — discover, schedule, and get the calendar pass sent straight to your WhatsApp.</p>
+
+      <!-- omnisearch -->
+      <form class="omni" id="omni" role="search">
+        <div class="omni-f">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <div style="min-width:0;flex:1">
+            <label class="lab" for="q">Find professional</label>
+            <input id="q" name="q" placeholder="Doctor, salon, attorney…" autocomplete="off">
           </div>
         </div>
-        <div class="thread-body" id="thread"></div>
+        <div class="omni-f">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <div style="min-width:0;flex:1">
+            <label class="lab" for="loc">Location</label>
+            <select id="loc" name="loc"><option>New York, NY (all)</option><option>Manhattan</option><option>SoHo</option><option>Midtown East</option><option>Chelsea</option></select>
+          </div>
+        </div>
+        <div class="omni-f">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+          <div style="min-width:0;flex:1">
+            <label class="lab" for="when">Availability</label>
+            <select id="when" name="when"><option>Today / any time</option><option>This week</option><option>Next 14 days</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2L4.5 13H11l-1 9 8.5-11H12l1-9z"/></svg>
+          Search slots
+        </button>
+      </form>
+
+      <!-- category pills -->
+      <div class="cats" id="cats" role="group" aria-label="Filter by category"></div>
+
+      <!-- stat bar -->
+      <div class="stats">
+        <div class="stat"><div class="v brand num" id="statSlots">—</div><div class="k">Open slots, next 14 days</div></div>
+        <div class="stat"><div class="v num">4.98 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" style="color:var(--star)" aria-hidden="true"><path d="M12 2l3 6.5 7 .9-5 4.9 1.2 7L12 18l-6.2 3.3L7 14.3l-5-4.9 7-.9z"/></svg></div><div class="k">Client trust score</div></div>
+        <div class="stat"><div class="v brand num">&lt;45s</div><div class="k">WhatsApp confirmation</div></div>
+        <div class="stat"><div class="v num" id="statProviders">—</div><div class="k">Verified specialists</div></div>
       </div>
     </div>
   </section>
 
-  <!-- STATS ------------------------------------------------------------ -->
-  <div class="wrap">
-    <div class="stats" id="stats">
-      <div class="stat"><div class="v num brand" id="statProviders">—</div><div class="k">Verified specialists</div></div>
-      <div class="stat"><div class="v num" id="statSlots">—</div><div class="k">Open slots, next 14 days</div></div>
-      <div class="stat"><div class="v num" id="statBookings">—</div><div class="k">Appointments booked</div></div>
-      <div class="stat"><div class="v num">&lt;45s</div><div class="k">Median confirmation time</div></div>
+  <!-- VALUE STRIP ------------------------------------------------------ -->
+  <section class="strip">
+    <div class="wrap strip-in">
+      <div class="strip-l">
+        <div class="strip-ic">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-4-1L3 21l2.1-5a8.4 8.4 0 0 1-1-4 8.5 8.5 0 0 1 8.4-9 8.5 8.5 0 0 1 8.5 8.5z"/></svg>
+        </div>
+        <div>
+          <h2>Friction-free booking, end to end</h2>
+          <p>Pick any slot below. OmniBook writes straight to the specialist's master calendar and sends your phone the pass, the location pin and a one-tap reschedule link.</p>
+        </div>
+      </div>
+      <div class="strip-r">
+        <span class="chipx"><i class="dot"></i>Direct cloud sync</span>
+        <span class="chipx"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Encrypted booking</span>
+      </div>
     </div>
-  </div>
+  </section>
 
   <!-- SPECIALISTS ------------------------------------------------------ -->
   <section class="sec" id="specialists">
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <span class="eyebrow">Live availability</span>
-          <h2>Specialists with open slots</h2>
-          <p>Pulled from the booking database in real time. Pick a slot and the confirmation is dispatched to your WhatsApp thread.</p>
+          <span class="eyebrow brand"><i class="dot" style="display:inline-block;margin-right:6px"></i>Top-tier network</span>
+          <h2>Available specialists ready today</h2>
+          <p>Vetted doctors, certified colourists and bar-admitted attorneys — availability read live from the booking database.</p>
+        </div>
+        <div class="tools">
+          <button class="btn btn-ghost" type="button" id="clearFilters">Clear filters</button>
+          <button class="btn btn-soft" type="button" id="sortBtn" aria-live="polite">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M7 12h10M10 17h4"/></svg>
+            <span id="sortLabel">Sort: earliest slot</span>
+          </button>
         </div>
       </div>
-      <div class="filters" id="filters" role="group" aria-label="Filter specialists by category"></div>
       <div class="grid" id="providerGrid">
-        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
       </div>
     </div>
   </section>
 
-  <!-- HOW IT WORKS ----------------------------------------------------- -->
+  <!-- WHY -------------------------------------------------------------- -->
   <section class="sec" id="how" style="background:var(--surface-2); border-block:1px solid var(--line)">
     <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="eyebrow">The booking lifecycle</span>
-          <h2>Three steps, one thread</h2>
-          <p>Every stage after the tap happens inside WhatsApp — which is why confirmations get read and slots stop going cold.</p>
-        </div>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <h3>Pick a real slot</h3>
-          <p>Availability is read straight from the specialist's calendar. When you claim a slot it is locked in the same transaction, so two people can never take the same time.</p>
-        </div>
-        <div class="step">
-          <h3>Confirmation dispatched</h3>
-          <p>An interactive WhatsApp message arrives with the address pin, the specialist's name and a booking reference. Reply <b>1</b> to confirm or <b>2</b> to reschedule.</p>
-        </div>
-        <div class="step">
-          <h3>Reminders and rescheduling</h3>
-          <p>Automated pings at 24 hours and 2 hours, plus a check-in code before the visit. Rescheduling is a reply, not a phone call.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PILLARS ---------------------------------------------------------- -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="sec-head">
-        <div>
-          <span class="eyebrow">Why practices switch</span>
-          <h2>Built for high-stakes calendars</h2>
-          <p>Idle chairs and no-shows are the two costs that scale with a booked-out practice. Both are messaging problems.</p>
-        </div>
+      <div class="sec-head center" style="display:block">
+        <span class="eyebrow brand">Automated architecture</span>
+        <h2>Why top providers and clients choose OmniBook</h2>
+        <p>The traditional booking confirmation email is ignored most of the time. OmniBook moves the whole appointment lifecycle to where conversations actually happen.</p>
       </div>
       <div class="pillars">
-        <div class="pillar">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-4-1L3 21l2.1-5a8.4 8.4 0 0 1-1-4 8.5 8.5 0 0 1 8.4-9 8.5 8.5 0 0 1 8.5 8.5z"/></svg></div>
-          <h3>Confirmations that get read</h3>
-          <p>Booking email goes unopened most of the time. A WhatsApp thread is where your client already is, so the confirmation is seen within minutes.</p>
-          <div class="metric"><b>98.4%</b><span>confirmed via two-way bot prompt</span></div>
+        <div class="pillar p1">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 14h.01M15 14h.01"/><path d="M2 13v2M22 13v2"/></svg></div>
+          <h3>Instant WhatsApp concierge</h3>
+          <p>Within 30 seconds of booking you get an automated confirmation carrying calendar sync, the clinic's exact coordinates and a one-tap reschedule link.</p>
+          <div class="viz">
+            <div class="viz-h"><i class="dot"></i>OmniBook bot preview</div>
+            <div class="bubble">
+              <b>Appointment confirmed ✅</b><br>
+              Dr. Elena Vance · Fri 11 Sep, 10:30 AM.<br>
+              Reply <b>1</b> to confirm or <b>2</b> for directions.
+            </div>
+          </div>
         </div>
-        <div class="pillar">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-          <h3>No-shows engineered out</h3>
-          <p>Reminders at 24 hours and 2 hours, with one-tap reschedule. A slot released early is re-listed to the marketplace instead of sitting empty.</p>
-          <div class="metric"><b>1.1%</b><span>no-show rate, down from 12%</span></div>
+        <div class="pillar p2">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M10.2 10.4L6.4 7.3M13.8 10.4l3.8-3.1M10.2 13.6l-3.8 3.1M13.8 13.6l3.8 3.1"/></svg></div>
+          <h3>Multi-industry unified booking</h3>
+          <p>Medical check-ups, styling appointments, attorney consultations and physiotherapy all sit under one secure client profile — no extra app per practice.</p>
+          <div class="viz">
+            <div class="bar-row"><span>Doctor &amp; dental slots</span><span>98% verified</span></div>
+            <div class="bar"><i style="width:92%"></i></div>
+            <div class="bar-row alt"><span>Salons &amp; legal retainers</span><span>Real-time sync</span></div>
+            <div class="bar alt" style="margin-bottom:0"><i style="width:88%"></i></div>
+          </div>
         </div>
-        <div class="pillar">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/></svg></div>
-          <h3>One profile, every category</h3>
-          <p>Medical, dental, beauty, wellness and legal share one client record and one thread — no separate app per practice.</p>
-          <div class="metric"><b>6</b><span>verified provider categories</span></div>
+        <div class="pillar p3">
+          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M5 3L2.5 5.5M19 3l2.5 2.5"/></svg></div>
+          <h3>Zero no-show protection</h3>
+          <p>Smart reminders dispatch at 24 hours and 2 hours. Clients reassign or reschedule with zero friction, and released slots are re-listed automatically.</p>
+          <div class="viz">
+            <div class="metric">
+              <div class="mv">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 17l-8.5-8.5-5 5L2 7"/><path d="M16 17h6v-6"/></svg>
+                <div><b>88% drop</b><span>in clinic no-shows</span></div>
+              </div>
+              <span class="sla">Meta API SLA</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -543,18 +622,21 @@ section{scroll-margin-top:80px}
       <div class="cta">
         <div class="cta-grid">
           <div>
-            <span class="eyebrow">For clinics, salons &amp; legal firms</span>
-            <h2>Plug your calendar into OmniBook</h2>
-            <p>Deploy a dedicated WhatsApp bot against your own number, sync two ways with Google, Outlook and iCal, and stop paying commission on appointments your clients were already going to book.</p>
+            <span class="badge2">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9zM3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></svg>
+              For clinics, salons &amp; legal firms
+            </span>
+            <h2>Are you a high-demand service provider?</h2>
+            <p>Plug your calendar directly into OmniBook. Stop paying commission on appointments your clients were already going to book, and run intake through your own WhatsApp number.</p>
             <div class="checks">
-              <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> No setup fee, no per-booking commission</div>
-              <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Two-way sync with Google, Outlook and iCal</div>
-              <div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Full WhatsApp Cloud API access on your own number</div>
+              <div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Zero setup fees, no per-booking commission</div>
+              <div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Two-way sync with Google, Outlook and iCal</div>
+              <div><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Full WhatsApp Cloud API access on your own number</div>
             </div>
           </div>
 
           <form class="form" id="leadForm" novalidate>
-            <h3>Request onboarding</h3>
+            <h3>Register your practice</h3>
             <div class="field">
               <label for="lead-business">Practice or studio name</label>
               <input id="lead-business" name="business_name" required placeholder="Lumina Dermatology">
@@ -578,7 +660,7 @@ section{scroll-margin-top:80px}
                 <option value="financial">Financial advisory</option>
               </select>
             </div>
-            <button class="btn btn-primary" type="submit" id="leadBtn">Request onboarding</button>
+            <button class="btn btn-primary btn-block" type="submit" id="leadBtn">Register practice or salon</button>
             <p class="form-msg" id="leadMsg" role="status"></p>
             <p class="form-note">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -593,10 +675,10 @@ section{scroll-margin-top:80px}
 
 <!-- BOOKING MODAL ------------------------------------------------------ -->
 <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="sheet" id="sheet">
+  <div class="sheet">
     <div class="sheet-top">
       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-4-1L3 21l2.1-5a8.4 8.4 0 0 1-1-4 8.5 8.5 0 0 1 8.4-9 8.5 8.5 0 0 1 8.5 8.5z"/></svg>
-      <b id="modalTitle">Confirm on WhatsApp</b>
+      <b id="modalTitle">Book slot via WhatsApp</b>
       <button class="x" id="modalClose" aria-label="Close booking dialog">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
@@ -606,7 +688,7 @@ section{scroll-margin-top:80px}
 </div>
 
 <!-- FOOTER ------------------------------------------------------------- -->
-<footer class="ft">
+<footer class="ft" id="pricing">
   <div class="wrap">
     <div class="ft-grid">
       <div>
@@ -619,23 +701,27 @@ section{scroll-margin-top:80px}
           </svg>
           OmniBook
         </a>
-        <p class="blurb">Appointment booking wired natively to WhatsApp — real-time calendar sync, instant confirmations and automated reminders.</p>
+        <p class="blurb">Institutional-grade booking automation connected natively to WhatsApp — real-time calendar syncing, instant client confirmations and automated specialist scheduling.</p>
+        <div class="ft-trust">
+          <span class="chipx"><i class="dot"></i>Meta Cloud API verified</span>
+          <span class="chipx"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>256-bit encrypted</span>
+        </div>
       </div>
       <div>
-        <h4>Categories</h4>
-        <ul><li>Doctors &amp; clinics</li><li>Dentists</li><li>Beauty &amp; hair</li><li>Spa &amp; wellness</li><li>Legal counsel</li></ul>
+        <h4>Verified categories</h4>
+        <ul><li>Private doctors &amp; clinics</li><li>Dentists &amp; orthodontics</li><li>Beauty salons &amp; stylists</li><li>Spas &amp; aesthetic studios</li><li>Attorneys &amp; legal counsel</li><li>Accountants &amp; tax advisors</li></ul>
       </div>
       <div>
-        <h4>Platform</h4>
-        <ul><li>Instant slot dispatch</li><li>24h &amp; 2h reminders</li><li>Two-way rescheduling</li><li>Deposit confirmations</li></ul>
+        <h4>WhatsApp bot tech</h4>
+        <ul><li>Instant slot dispatch</li><li>24h smart reminders</li><li>Two-way rescheduling</li><li>Deposit confirmations</li><li>Multi-agent shared inbox</li></ul>
       </div>
       <div>
-        <h4>Trust</h4>
-        <ul><li>Provider verification</li><li>Row-level security</li><li>HIPAA &amp; GDPR safeguards</li><li>Encrypted at rest</li></ul>
+        <h4>Platform &amp; trust</h4>
+        <ul><li>Provider verification</li><li>99.99% SLA guarantee</li><li>HIPAA &amp; GDPR safeguards</li><li>Developer webhooks</li><li>System status: operational</li></ul>
       </div>
     </div>
     <div class="ft-bottom">
-      <span>© 2026 OmniBook. Demo platform.</span>
+      <span>© 2026 OmniBook Enterprise Platform. Demo build.</span>
       <div class="stack-line">
         <span>Cloudflare Workers</span><span>Supabase</span><span>Postgres 17</span><span>Deno Edge</span>
       </div>
@@ -647,151 +733,220 @@ section{scroll-margin-top:80px}
 (function () {
   "use strict";
 
-  /* The API base is injected at deploy time; falls back to the hosted
-     Edge Function so the page works when opened directly. */
+  /* API base is injected at deploy time; falls back to the hosted Edge Function. */
   var API = (window.OMNIBOOK_API || "https://xhbhlpegfnswhbodhbqp.supabase.co/functions/v1/omnibook-api");
 
-  /* Snapshot of the live catalog, embedded so the page renders fully even
-     where cross-origin fetch is unavailable (e.g. a sandboxed preview). */
+  /* Snapshot of the live catalog, embedded so the page renders in full even
+     where cross-origin fetch is unavailable (a sandboxed preview). */
   var SNAPSHOT = {
-    live: false,
     stats: { providers: 5, open_slots: 224, bookings: 1 },
     providers: [
-      { slug:"sterling-cole", display_name:"Sterling & Cole Legal", headline:"Midtown East · Partner Legal Counsel", category:"legal", specialty:"Corporate & Contract Law", city:"New York", rating:5.00, review_count:110, from_service:{name:"Retainer Assessment", duration_minutes:45, price_cents:25000}, open_slots:45 },
-      { slug:"elena-vance", display_name:"Dr. Elena Vance, MD", headline:"Manhattan Aesthetics & Clinical Skin Health", category:"medical", specialty:"Board-Certified Dermatology", city:"New York", rating:4.98, review_count:342, from_service:{name:"Consultation & Skin Health Exam", duration_minutes:30, price_cents:16000}, open_slots:44 },
-      { slug:"maison-glow", display_name:"Maison Glow Atelier", headline:"SoHo Studio · Master Stylist Julian & Team", category:"beauty", specialty:"Master Colorist & Styling", city:"New York", rating:4.95, review_count:520, from_service:{name:"Precision Cut & Style", duration_minutes:60, price_cents:9500}, open_slots:45 },
-      { slug:"purezen-wellness", display_name:"PureZen Wellness", headline:"Chelsea District · Certified PT Specialist", category:"wellness", specialty:"Physical Therapy & Rehab", city:"New York", rating:4.92, review_count:280, from_service:{name:"Initial Assessment", duration_minutes:45, price_cents:12000}, open_slots:45 },
-      { slug:"apex-dental", display_name:"Apex Dental Studio", headline:"Flatiron · Dr. Marcus Vance", category:"dental", specialty:"Dentistry & Orthodontics", city:"New York", rating:4.90, review_count:198, from_service:{name:"Preventative Hygiene & Polish", duration_minutes:45, price_cents:18000}, open_slots:45 }
+      { slug:"elena-vance", display_name:"Dr. Elena Vance, MD", headline:"Manhattan Aesthetics & Clinical Skin Health", category:"medical", specialty:"Board-Certified Dermatology", city:"New York", rating:4.98, review_count:342, from_service:{name:"Consultation & Skin Health Exam", duration_minutes:30, price_cents:16000}, open_slots:44, dispatch:"Instant WhatsApp confirmation" },
+      { slug:"maison-glow", display_name:"Maison Glow Atelier", headline:"SoHo Studio · Master Stylist Julian & Team", category:"beauty", specialty:"Master Colorist & Styling", city:"New York", rating:4.95, review_count:520, from_service:{name:"Precision Cut & Style", duration_minutes:60, price_cents:9500}, open_slots:45, dispatch:"WhatsApp pre-consultation form" },
+      { slug:"sterling-cole", display_name:"Sterling & Cole Legal", headline:"Midtown East · Partner Legal Counsel", category:"legal", specialty:"Corporate & Contract Law", city:"New York", rating:5.00, review_count:110, from_service:{name:"Retainer Assessment", duration_minutes:45, price_cents:25000}, open_slots:45, dispatch:"Encrypted NDA dispatched" },
+      { slug:"purezen-wellness", display_name:"PureZen Wellness", headline:"Chelsea District · Certified PT Specialist", category:"wellness", specialty:"Physical Therapy & Rehab", city:"New York", rating:4.92, review_count:280, from_service:{name:"Initial Assessment", duration_minutes:45, price_cents:12000}, open_slots:45, dispatch:"Directions & parking in chat" },
+      { slug:"apex-dental", display_name:"Apex Dental Studio", headline:"Flatiron · Dr. Marcus Vance", category:"dental", specialty:"Dentistry & Orthodontics", city:"New York", rating:4.90, review_count:198, from_service:{name:"Preventative Hygiene & Polish", duration_minutes:45, price_cents:18000}, open_slots:45, dispatch:"Check-in QR before your visit" }
     ]
   };
 
+  var DISPATCH_BY_CATEGORY = {
+    medical:"Instant WhatsApp confirmation", beauty:"WhatsApp pre-consultation form",
+    legal:"Encrypted NDA dispatched", wellness:"Directions & parking in chat",
+    dental:"Check-in QR before your visit", financial:"Secure document exchange"
+  };
+
   var $ = function (s, r) { return (r || document).querySelector(s); };
-  var state = { providers: [], filter: "all", live: false, provider: null, slots: [], slotId: null };
+  var state = { providers: [], filter: "all", query: "", sort: "slot", live: false, provider: null, slots: [], slotId: null };
 
-  function money(cents) {
-    return "$" + (cents / 100).toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-  }
-  function initials(name) {
-    return name.replace(/^Dr\.?\s+/i, "").split(/\s+/).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase();
-  }
-  function esc(s) {
-    return String(s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-  function fmtSlot(iso) {
+  function money(c){ return "$" + (c/100).toLocaleString("en-US",{maximumFractionDigits:0}); }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function fmtSlot(iso){
     var d = new Date(iso);
-    return {
-      day: d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }),
-      time: d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
-    };
+    return { day: d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"}),
+             time: d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}) };
   }
-  /* Fetch that never hangs the page: resolves null on any failure. */
-  function get(path, opts) {
+  /* "Today" / "Tomorrow" / "Fri" — keeps the availability chip on one line. */
+  function relDay(iso){
+    var d = new Date(iso), now = new Date();
+    var days = Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate()) -
+                           new Date(now.getFullYear(),now.getMonth(),now.getDate())) / 86400000);
+    if (days <= 0) return "Today";
+    if (days === 1) return "Tomorrow";
+    return d.toLocaleDateString("en-US",{weekday:"short"});
+  }
+  function get(path, opts){
     var ctl = new AbortController();
-    var timer = setTimeout(function () { ctl.abort(); }, 7000);
+    var t = setTimeout(function(){ ctl.abort(); }, 7000);
     return fetch(API + path, Object.assign({ signal: ctl.signal }, opts || {}))
-      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); })
-      .catch(function () { return null; })
-      .then(function (r) { clearTimeout(timer); return r; });
+      .then(function(r){ return r.json().then(function(b){ return { ok:r.ok, body:b }; }); })
+      .catch(function(){ return null; })
+      .then(function(r){ clearTimeout(t); return r; });
   }
 
-  /* ---- hero thread ------------------------------------------------- */
-  var SCRIPT_MSGS = [
-    { cls: "in", html: 'Hi Alex — your <b>Skin Health Exam</b> with <b>Dr. Elena Vance</b> is confirmed for <b>Fri 11 Sep, 10:30&nbsp;AM</b>.<br>Upper East Side Medical Center, Suite 840.<div class="quick"><span>1 · Confirm</span><span>2 · Reschedule</span><span>3 · Directions</span></div><span class="meta">10:02 · Sent</span>' },
-    { cls: "out", html: '1<span class="meta">10:03 ✓✓</span>' },
-    { cls: "in", html: 'Locked in. Reference <b>OB-F048D313</b>. Added to your calendar — we\'ll ping you 2 hours before with the door code.<span class="meta">10:03 · Sent</span>' }
-  ];
-  function playThread() {
-    var host = $("#thread");
-    if (!host) return;
-    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    SCRIPT_MSGS.forEach(function (m, i) {
-      var el = document.createElement("div");
-      el.className = "msg " + m.cls;
-      el.innerHTML = m.html;
-      if (!reduced) {
-        el.classList.add("reveal");
-        el.style.animationDelay = (0.25 + i * 0.75) + "s";
-      }
-      host.appendChild(el);
-    });
+  /* ---- built scenes: each category gets its own geometry, no external asset -- */
+  function scene(cat){
+    var w = 'rgba(255,255,255,.55)', w2 = 'rgba(255,255,255,.32)', d = 'rgba(15,23,42,.10)';
+    var shapes = {
+      medical:
+        '<circle cx="150" cy="34" r="26" fill="'+w2+'"/>' +
+        '<rect x="18" y="96" width="164" height="64" rx="8" fill="'+d+'"/>' +
+        '<rect x="34" y="60" width="52" height="46" rx="7" fill="'+w+'"/>' +
+        '<path d="M60 72v22M49 83h22" stroke="rgba(5,150,105,.55)" stroke-width="6" stroke-linecap="round"/>' +
+        '<rect x="104" y="76" width="62" height="30" rx="6" fill="'+w2+'"/>',
+      beauty:
+        '<circle cx="62" cy="58" r="34" fill="'+w+'"/><circle cx="62" cy="58" r="24" fill="'+w2+'"/>' +
+        '<circle cx="24" cy="34" r="5" fill="'+w+'"/><circle cx="100" cy="34" r="5" fill="'+w+'"/>' +
+        '<circle cx="24" cy="82" r="5" fill="'+w+'"/><circle cx="100" cy="82" r="5" fill="'+w+'"/>' +
+        '<rect x="112" y="62" width="66" height="98" rx="9" fill="'+d+'"/>' +
+        '<rect x="14" y="112" width="86" height="48" rx="8" fill="'+w2+'"/>',
+      legal:
+        '<rect x="16" y="16" width="34" height="76" rx="4" fill="'+w+'"/>' +
+        '<rect x="58" y="16" width="34" height="76" rx="4" fill="'+w2+'"/>' +
+        '<rect x="100" y="16" width="34" height="76" rx="4" fill="'+w+'"/>' +
+        '<rect x="142" y="16" width="34" height="76" rx="4" fill="'+w2+'"/>' +
+        '<rect x="10" y="108" width="180" height="20" rx="10" fill="'+d+'"/>' +
+        '<rect x="44" y="134" width="112" height="12" rx="6" fill="'+w2+'"/>',
+      wellness:
+        '<circle cx="154" cy="38" r="24" fill="'+w2+'"/>' +
+        '<path d="M44 128c0-42 24-70 62-74-4 44-26 70-62 74z" fill="'+w+'"/>' +
+        '<path d="M44 128c-22-10-32-34-28-60 30 10 44 32 28 60z" fill="'+w2+'"/>' +
+        '<rect x="16" y="136" width="168" height="24" rx="10" fill="'+d+'"/>',
+      dental:
+        '<path d="M62 34c14-10 32-10 46 0 12 9 14 26 8 46-5 17-10 34-18 34s-8-16-13-16-5 16-13 16-13-17-18-34c-6-20-4-37 8-46z" fill="'+w+'"/>' +
+        '<circle cx="150" cy="42" r="18" fill="'+w2+'"/>' +
+        '<rect x="20" y="136" width="160" height="24" rx="10" fill="'+d+'"/>',
+      financial:
+        '<rect x="28" y="86" width="26" height="52" rx="5" fill="'+w2+'"/>' +
+        '<rect x="66" y="62" width="26" height="76" rx="5" fill="'+w+'"/>' +
+        '<rect x="104" y="40" width="26" height="98" rx="5" fill="'+w2+'"/>' +
+        '<rect x="142" y="20" width="26" height="118" rx="5" fill="'+w+'"/>' +
+        '<rect x="16" y="144" width="168" height="12" rx="6" fill="'+d+'"/>'
+    };
+    return '<svg class="scene" viewBox="0 0 200 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+           (shapes[cat] || shapes.medical) + '</svg>';
   }
+
+  var GLYPH = {
+    medical:'<path d="M12 3v18M3 12h18"/>',
+    beauty:'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.1 8.1L20 20M8.1 15.9L20 4"/>',
+    legal:'<path d="M12 3v18M5 21h14M4 8l8-4 8 4M4 8l-2 6a4 4 0 0 0 8 0L8 8M20 8l2 6a4 4 0 0 1-8 0l2-6"/>',
+    wellness:'<path d="M12 21c-5-3-8-7-8-11a8 8 0 0 1 16 0c0 4-3 8-8 11z"/><path d="M12 21V9"/>',
+    dental:'<path d="M7 4c3-2 7-2 10 0 2.5 2 2.5 6 1 11-1 3.5-2 6-3.5 6S13 18 12 18s-1 3-2.5 3S7.5 18.5 6.5 15c-1.5-5-1.5-9 .5-11z"/>',
+    financial:'<path d="M4 20V10M10 20V4M16 20v-8M22 20V7"/>'
+  };
+  function glyph(cat){
+    return '<svg class="glyph" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      (GLYPH[cat] || GLYPH.medical) + '</svg>';
+  }
+
+  /* ---- category pills ---------------------------------------------- */
+  var CATEGORIES = [
+    { id:"all", label:"All specialists", icon:'<path d="M4 6h16M4 12h16M4 18h16"/>' },
+    { id:"medical", label:"Doctors & health", icon:'<path d="M8 3v4M16 3v4M6 7h12v10a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4z"/><path d="M12 12v4M10 14h4"/>' },
+    { id:"beauty", label:"Beauty & hair", icon:'<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.1 8.1L20 20M8.1 15.9L20 4"/>' },
+    { id:"legal", label:"Legal & notary", icon:'<path d="M12 3v18M5 21h14M4 8l8-4 8 4"/>' },
+    { id:"wellness", label:"Spas & wellness", icon:'<path d="M12 21c-5-3-8-7-8-11a8 8 0 0 1 16 0c0 4-3 8-8 11z"/>' },
+    { id:"dental", label:"Dental care", icon:'<path d="M7 4c3-2 7-2 10 0 2.5 2 2.5 6 1 11-1 3.5-2 6-3.5 6S13 18 12 18s-1 3-2.5 3S7.5 18.5 6.5 15c-1.5-5-1.5-9 .5-11z"/>' }
+  ];
+  function renderCats(){
+    $("#cats").innerHTML = CATEGORIES.map(function(c){
+      return '<button class="cat" type="button" data-cat="'+c.id+'" aria-pressed="'+(state.filter===c.id)+'">' +
+        '<i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+c.icon+'</svg></i>' +
+        esc(c.label) + '</button>';
+    }).join("");
+  }
+
+  /* ---- provider cards ---------------------------------------------- */
+  function card(p){
+    var svc = p.from_service;
+    var next = p.next_slot && p.next_slot.starts_at ? fmtSlot(p.next_slot.starts_at) : null;
+    var open = p.open_slots != null ? p.open_slots : null;
+    var leftLabel = open === null ? "Slots open" : (open <= 1 ? open + " slot left" : open + " slots open");
+    var dispatch = p.dispatch || DISPATCH_BY_CATEGORY[p.category] || "Instant WhatsApp confirmation";
+
+    return '<article class="card">' +
+      '<div class="media cat-'+esc(p.category)+'">' + scene(p.category) + glyph(p.category) +
+        '<span class="ov tl"><i class="dot pulse"></i>' +
+          (p.next_slot ? esc(relDay(p.next_slot.starts_at)) + " " + esc(next.time) : "Live availability") + '</span>' +
+        '<span class="ov tr"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5 7 .9-5 4.9 1.2 7L12 18l-6.2 3.3L7 14.3l-5-4.9 7-.9z"/></svg>' +
+          Number(p.rating).toFixed(2) + ' <small>('+p.review_count+')</small></span>' +
+      '</div>' +
+      '<div>' +
+        '<div class="vtag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>' + esc(p.specialty || p.category) + '</div>' +
+        '<h3>' + esc(p.display_name) + '</h3>' +
+        '<p class="where">' + esc(p.headline || p.city) + '</p>' +
+      '</div>' +
+      '<div class="disp">' +
+        '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.5 8.5 0 0 1-4-1L3 21l2.1-5a8.4 8.4 0 0 1-1-4 8.5 8.5 0 0 1 8.4-9 8.5 8.5 0 0 1 8.5 8.5z"/></svg>' +
+        esc(dispatch) + '</div>' +
+      '<div class="pricerow">' +
+        '<div><span class="k">' + (svc ? esc(svc.name) : "Consultation") + '</span>' +
+          '<span class="v num">' + (svc ? money(svc.price_cents) : "—") +
+          (svc ? ' <small>/ ' + svc.duration_minutes + ' min</small>' : '') + '</span></div>' +
+        '<span class="left num">' + leftLabel + '</span>' +
+      '</div>' +
+      '<div class="card-actions">' +
+        '<button class="btn btn-primary btn-block" type="button" data-book="'+esc(p.slug)+'">' +
+          'Book slot via WhatsApp' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+        '</button>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function visibleProviders(){
+    var q = state.query.trim().toLowerCase();
+    var list = state.providers.filter(function(p){
+      if (state.filter !== "all" && p.category !== state.filter) return false;
+      if (!q) return true;
+      return (p.display_name + " " + (p.specialty||"") + " " + (p.headline||"") + " " +
+              (p.from_service ? p.from_service.name : "")).toLowerCase().indexOf(q) > -1;
+    });
+    var by = {
+      slot: function(a,b){
+        var av = a.next_slot ? new Date(a.next_slot.starts_at).getTime() : Infinity;
+        var bv = b.next_slot ? new Date(b.next_slot.starts_at).getTime() : Infinity;
+        return av - bv || Number(b.rating) - Number(a.rating);
+      },
+      rating: function(a,b){ return Number(b.rating) - Number(a.rating); },
+      price:  function(a,b){
+        var ap = a.from_service ? a.from_service.price_cents : Infinity;
+        var bp = b.from_service ? b.from_service.price_cents : Infinity;
+        return ap - bp;
+      }
+    };
+    return list.slice().sort(by[state.sort]);
+  }
+
+  function renderProviders(){
+    var list = visibleProviders();
+    $("#providerGrid").innerHTML = list.length
+      ? list.map(card).join("")
+      : '<p class="empty">No specialists match that search yet. Try clearing the filters.</p>';
+  }
+
+  var SORTS = [
+    { id:"slot",   label:"Sort: earliest slot" },
+    { id:"rating", label:"Sort: highest rated" },
+    { id:"price",  label:"Sort: lowest price" }
+  ];
 
   /* ---- stats ------------------------------------------------------- */
-  function renderStats(s) {
+  function renderStats(s){
     $("#statProviders").textContent = s.providers;
-    $("#statSlots").textContent = s.open_slots.toLocaleString("en-US");
-    $("#statBookings").textContent = s.bookings.toLocaleString("en-US");
+    $("#statSlots").textContent = Number(s.open_slots).toLocaleString("en-US");
   }
-  function setChip(live) {
+  function setChip(live){
     state.live = live;
     $("#apiChipText").textContent = live ? "Live data" : "Preview data";
     if (!live) $("#apiChip").querySelector(".dot").classList.remove("pulse");
   }
 
-  /* ---- providers --------------------------------------------------- */
-  var CATEGORIES = [
-    { id: "all", label: "All specialists" },
-    { id: "medical", label: "Doctors" },
-    { id: "dental", label: "Dental" },
-    { id: "beauty", label: "Beauty & hair" },
-    { id: "wellness", label: "Wellness" },
-    { id: "legal", label: "Legal" }
-  ];
-  function renderFilters() {
-    $("#filters").innerHTML = CATEGORIES.map(function (c) {
-      return '<button class="chip" type="button" data-cat="' + c.id + '" aria-pressed="' +
-        (state.filter === c.id) + '">' + esc(c.label) + "</button>";
-    }).join("");
-  }
-  function providerCard(p) {
-    var svc = p.from_service;
-    var open = p.open_slots != null ? p.open_slots : (p.next_slot ? 1 : 0);
-    var next = p.next_slot && p.next_slot.starts_at ? fmtSlot(p.next_slot.starts_at) : null;
-    return '' +
-      '<article class="card">' +
-        '<div class="card-top">' +
-          '<div class="avatar cat-' + esc(p.category) + '">' + esc(initials(p.display_name)) + "</div>" +
-          "<div style=\"min-width:0\">" +
-            "<h3>" + esc(p.display_name) + "</h3>" +
-            '<div class="spec">' + esc(p.specialty || p.category) + "</div>" +
-          "</div>" +
-          '<div class="rating"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5 7 .9-5 4.9 1.2 7L12 18l-6.2 3.3L7 14.3l-5-4.9 7-.9z"/></svg>' +
-            Number(p.rating).toFixed(2) + " <small>(" + p.review_count + ")</small></div>" +
-        "</div>" +
-        '<div class="where">' + esc(p.headline || p.city) + "</div>" +
-        '<div class="card-mid">' +
-          "<div style=\"min-width:0\">" +
-            '<div class="svc">' + esc(svc ? svc.name : "Consultation") + "</div>" +
-            '<div class="dur num">' + (svc ? svc.duration_minutes + " min" : "") + "</div>" +
-          "</div>" +
-          '<div class="price num">' + (svc ? money(svc.price_cents) : "—") + "</div>" +
-        "</div>" +
-        '<div class="card-foot">' +
-          '<div class="slot-note">' +
-            (next
-              ? '<span class="badge"><i class="dot"></i>' + esc(next.day) + " · " + esc(next.time) + "</span>"
-              : '<span class="badge"><i class="dot"></i>' + open + " slots open</span>") +
-          "</div>" +
-          '<button class="btn btn-primary" type="button" data-book="' + esc(p.slug) + '">Book slot</button>' +
-        "</div>" +
-      "</article>";
-  }
-  function renderProviders() {
-    var list = state.filter === "all"
-      ? state.providers
-      : state.providers.filter(function (p) { return p.category === state.filter; });
-    var grid = $("#providerGrid");
-    grid.innerHTML = list.length
-      ? list.map(providerCard).join("")
-      : '<p style="color:var(--muted)">No specialists in this category yet.</p>';
-  }
-
-  /* ---- booking modal ----------------------------------------------- */
+  /* ---- booking modal ------------------------------------------------ */
   var lastFocus = null;
-  function openModal(slug) {
-    var p = state.providers.filter(function (x) { return x.slug === slug; })[0];
+  function openModal(slug){
+    var p = state.providers.filter(function(x){ return x.slug === slug; })[0];
     if (!p) return;
     state.provider = p; state.slotId = null; state.slots = [];
     lastFocus = document.activeElement;
@@ -799,8 +954,9 @@ section{scroll-margin-top:80px}
     document.body.style.overflow = "hidden";
     renderSheet(true);
     $("#modalClose").focus();
+
     if (state.live) {
-      get("/slots?provider=" + encodeURIComponent(slug) + "&limit=12").then(function (r) {
+      get("/slots?provider=" + encodeURIComponent(slug) + "&limit=12").then(function(r){
         state.slots = (r && r.ok && r.body.slots) ? r.body.slots : [];
         if (!$("#modal").hidden) renderSheet(false);
       });
@@ -809,98 +965,92 @@ section{scroll-margin-top:80px}
       renderSheet(false);
     }
   }
-  /* Plausible upcoming slots for the preview, matching the seeded pattern. */
-  function demoSlots() {
+  function demoSlots(){
     var out = [], base = new Date(), added = 0, day = 0;
     var hours = [9, 10.5, 13.5, 15.5, 17];
-    while (added < 8 && day < 6) {
+    while (added < 8 && day < 7) {
       day++;
       var d = new Date(base); d.setDate(d.getDate() + day);
       if (d.getDay() === 0 || d.getDay() === 6) continue;
       for (var i = 0; i < hours.length && added < 8; i++) {
         var s = new Date(d);
         s.setHours(Math.floor(hours[i]), (hours[i] % 1) * 60, 0, 0);
-        out.push({ id: "preview-" + added, starts_at: s.toISOString() });
+        out.push({ id:"preview-"+added, starts_at:s.toISOString() });
         added++;
       }
     }
     return out;
   }
-  function closeModal() {
+  function closeModal(){
     $("#modal").hidden = true;
     document.body.style.overflow = "";
     if (lastFocus) lastFocus.focus();
   }
-  function renderSheet(loading) {
+  function renderSheet(loading){
     var p = state.provider, svc = p.from_service;
     var slotsHtml = loading
       ? '<p style="color:var(--muted);font-size:13px">Loading open slots…</p>'
       : (state.slots.length
-        ? state.slots.map(function (s) {
-            var f = fmtSlot(s.starts_at);
-            return '<button class="slot" type="button" data-slot="' + esc(s.id) + '" aria-pressed="' +
-              (state.slotId === s.id) + '">' + esc(f.time) + "<small>" + esc(f.day) + "</small></button>";
-          }).join("")
-        : '<p style="color:var(--muted);font-size:13px">No open slots in the next fortnight.</p>');
+          ? state.slots.map(function(s){
+              var f = fmtSlot(s.starts_at);
+              return '<button class="slot" type="button" data-slot="'+esc(s.id)+'" aria-pressed="'+(state.slotId===s.id)+'">' +
+                     esc(f.time) + '<small>' + esc(f.day) + '</small></button>';
+            }).join("")
+          : '<p style="color:var(--muted);font-size:13px">No open slots in the next fortnight.</p>');
 
-    $("#sheetBody").innerHTML = '' +
+    $("#sheetBody").innerHTML =
       '<div class="summary">' +
-        '<div class="row"><span>Specialist</span><b>' + esc(p.display_name) + "</b></div>" +
-        '<div class="row"><span>Service</span><b>' + esc(svc ? svc.name : "Consultation") + "</b></div>" +
-        '<div class="row"><span>Duration</span><b class="num">' + (svc ? svc.duration_minutes + " min" : "—") + "</b></div>" +
-        '<div class="row total"><span>Due at clinic</span><b class="num">' + (svc ? money(svc.price_cents) : "—") + "</b></div>" +
-      "</div>" +
-      '<div><div class="eyebrow" style="margin-bottom:8px">Choose a time</div><div class="slots" id="slotList">' + slotsHtml + "</div></div>" +
+        '<div class="row"><span>Specialist</span><b>'+esc(p.display_name)+'</b></div>' +
+        '<div class="row"><span>Service</span><b>'+esc(svc ? svc.name : "Consultation")+'</b></div>' +
+        '<div class="row"><span>Duration</span><b class="num">'+(svc ? svc.duration_minutes+" min" : "—")+'</b></div>' +
+        '<div class="row total"><span>Due at clinic</span><b class="num">'+(svc ? money(svc.price_cents) : "—")+'</b></div>' +
+      '</div>' +
+      '<div><div class="eyebrow" style="margin-bottom:8px">Choose a time</div><div class="slots">'+slotsHtml+'</div></div>' +
       '<div class="field"><label for="bookPhone">Your WhatsApp number</label>' +
         '<input id="bookPhone" type="tel" inputmode="tel" placeholder="+1 212 555 0198" value="+1 212 555 0198"></div>' +
-      '<div class="field"><label for="bookName">Your name</label>' +
-        '<input id="bookName" placeholder="Alex Rivera"></div>' +
-      '<button class="btn btn-primary" type="button" id="bookBtn">Confirm &amp; send WhatsApp pass</button>' +
+      '<div class="field"><label for="bookName">Your name</label><input id="bookName" placeholder="Alex Rivera"></div>' +
+      '<button class="btn btn-primary btn-block" type="button" id="bookBtn">Confirm &amp; send WhatsApp pass</button>' +
       '<p class="form-msg" id="bookMsg" role="status"></p>' +
       '<p class="form-note"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> No prepayment. Pay at the clinic after your visit.</p>';
   }
-  function confirmBooking() {
+  function confirmBooking(){
     var msg = $("#bookMsg"), btn = $("#bookBtn");
     var phone = ($("#bookPhone").value || "").trim();
-    if (!state.slotId) { msg.className = "form-msg err"; msg.textContent = "Choose a time slot first."; return; }
-    if (phone.replace(/\D/g, "").length < 7) { msg.className = "form-msg err"; msg.textContent = "Enter the WhatsApp number that should receive the confirmation."; return; }
+    if (!state.slotId){ msg.className="form-msg err"; msg.textContent="Choose a time slot first."; return; }
+    if (phone.replace(/\D/g,"").length < 7){ msg.className="form-msg err"; msg.textContent="Enter the WhatsApp number that should receive the confirmation."; return; }
 
     btn.disabled = true; btn.textContent = "Dispatching…";
     msg.className = "form-msg"; msg.textContent = "";
 
-    if (!state.live) {
-      setTimeout(function () { showBooked("OB-PREVIEW", phone); }, 650);
-      return;
-    }
-    get("/bookings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    if (!state.live){ setTimeout(function(){ showBooked("OB-PREVIEW", phone); }, 650); return; }
+
+    get("/bookings", { method:"POST", headers:{"Content-Type":"application/json"},
       body: JSON.stringify({ slot_id: state.slotId, whatsapp: phone, full_name: $("#bookName").value })
-    }).then(function (r) {
+    }).then(function(r){
       btn.disabled = false; btn.textContent = "Confirm & send WhatsApp pass";
-      if (r && r.ok && r.body.booking) { showBooked(r.body.booking.reference, phone); return; }
+      if (r && r.ok && r.body.booking){ showBooked(r.body.booking.reference, phone); return; }
       msg.className = "form-msg err";
       msg.textContent = (r && r.body && r.body.error) ? r.body.error : "Could not reach the booking service. Try again.";
     });
   }
-  function showBooked(ref, phone) {
-    $("#sheetBody").innerHTML = '' +
+  function showBooked(ref, phone){
+    $("#sheetBody").innerHTML =
       '<div class="ok-panel">' +
         '<div class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>' +
-        "<h3>Appointment confirmed</h3>" +
-        "<p>The calendar pass and directions are on their way to <b>" + esc(phone) + "</b>. Reply <b>2</b> in that thread to reschedule at any time.</p>" +
-        '<div class="ref"><span>Booking reference</span><b class="mono">' + esc(ref) + "</b></div>" +
-      "</div>" +
-      '<button class="btn btn-ghost" type="button" id="modalDone">Done</button>';
-    if (state.live) loadStats();
+        '<h3>Appointment confirmed</h3>' +
+        '<p>The calendar pass and directions are on their way to <b>'+esc(phone)+'</b>. Reply <b>2</b> in that thread to reschedule at any time.</p>' +
+        '<div class="ref"><span>Booking reference</span><b class="mono">'+esc(ref)+'</b></div>' +
+      '</div>' +
+      '<button class="btn btn-ghost btn-block" type="button" id="modalDone">Done</button>';
+    if (state.live) { loadStats(); refreshProviders(); }
   }
 
   /* ---- lead form ---------------------------------------------------- */
-  function submitLead(e) {
+  function submitLead(e){
     e.preventDefault();
     var msg = $("#leadMsg"), btn = $("#leadBtn");
     var business = $("#lead-business").value.trim();
-    if (!business) { msg.className = "form-msg err"; msg.textContent = "Tell us the name of your practice."; return; }
+    if (!business){ msg.className="form-msg err"; msg.textContent="Tell us the name of your practice."; return; }
 
     btn.disabled = true; btn.textContent = "Sending…";
     var payload = {
@@ -910,66 +1060,104 @@ section{scroll-margin-top:80px}
       category: $("#lead-category").value,
       source: "landing"
     };
-    var done = function (ok, text) {
-      btn.disabled = false; btn.textContent = "Request onboarding";
+    var done = function(ok, text){
+      btn.disabled = false; btn.textContent = "Register practice or salon";
       msg.className = "form-msg " + (ok ? "ok" : "err");
       msg.textContent = text;
       if (ok) $("#leadForm").reset();
     };
-    if (!state.live) { setTimeout(function () { done(true, "Thanks — saved. Our onboarding team will WhatsApp you shortly."); }, 500); return; }
-    get("/leads", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
-      .then(function (r) {
+    if (!state.live){ setTimeout(function(){ done(true, "Thanks — saved. Our onboarding team will WhatsApp you shortly."); }, 500); return; }
+    get("/leads", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify(payload) })
+      .then(function(r){
         if (r && r.ok) done(true, (r.body && r.body.message) || "Thanks — we'll be in touch shortly.");
         else done(false, (r && r.body && r.body.error) || "Could not reach the server. Please try again.");
       });
   }
 
-  /* ---- wiring ------------------------------------------------------- */
-  function loadStats() {
-    return get("/stats").then(function (r) {
-      if (r && r.ok && typeof r.body.providers === "number") { renderStats(r.body); return true; }
+  /* ---- data --------------------------------------------------------- */
+  function loadStats(){
+    return get("/stats").then(function(r){
+      if (r && r.ok && typeof r.body.providers === "number"){ renderStats(r.body); return true; }
       return false;
     });
   }
+  function refreshProviders(){
+    return get("/providers?limit=12").then(function(r){
+      var live = !!(r && r.ok && r.body.providers && r.body.providers.length);
+      if (live){ state.providers = r.body.providers; renderProviders(); }
+      return live;
+    });
+  }
 
-  document.addEventListener("click", function (e) {
-    var chip = e.target.closest("[data-cat]");
-    if (chip) { state.filter = chip.dataset.cat; renderFilters(); renderProviders(); return; }
+  /* ---- wiring ------------------------------------------------------- */
+  document.addEventListener("click", function(e){
+    var cat = e.target.closest("[data-cat]");
+    if (cat){ state.filter = cat.dataset.cat; renderCats(); renderProviders(); return; }
 
     var book = e.target.closest("[data-book]");
-    if (book) { openModal(book.dataset.book); return; }
+    if (book){ openModal(book.dataset.book); return; }
 
     var slot = e.target.closest("[data-slot]");
-    if (slot) {
+    if (slot){
       state.slotId = slot.dataset.slot;
-      Array.prototype.forEach.call(document.querySelectorAll("[data-slot]"), function (b) {
+      Array.prototype.forEach.call(document.querySelectorAll("[data-slot]"), function(b){
         b.setAttribute("aria-pressed", String(b.dataset.slot === state.slotId));
       });
       return;
     }
-    if (e.target.closest("#bookBtn")) { confirmBooking(); return; }
+    if (e.target.closest("#bookBtn")){ confirmBooking(); return; }
+    if (e.target.closest("#sortBtn")){
+      var i = SORTS.findIndex(function(s){ return s.id === state.sort; });
+      var nx = SORTS[(i + 1) % SORTS.length];
+      state.sort = nx.id; $("#sortLabel").textContent = nx.label; renderProviders(); return;
+    }
+    if (e.target.closest("#clearFilters")){
+      state.filter = "all"; state.query = ""; $("#q").value = "";
+      renderCats(); renderProviders(); return;
+    }
     if (e.target.closest("#modalClose") || e.target.closest("#modalDone") || e.target.id === "modal") closeModal();
   });
-  document.addEventListener("keydown", function (e) {
+
+  document.addEventListener("keydown", function(e){
     if (e.key === "Escape" && !$("#modal").hidden) closeModal();
+  });
+
+  $("#q").addEventListener("input", function(e){ state.query = e.target.value; renderProviders(); });
+  $("#omni").addEventListener("submit", function(e){
+    e.preventDefault();
+    renderProviders();
+    document.getElementById("specialists").scrollIntoView({ behavior:"smooth", block:"start" });
   });
   $("#leadForm").addEventListener("submit", submitLead);
 
-  /* boot: render the snapshot immediately, then upgrade to live data. */
-  playThread();
-  renderFilters();
-  state.providers = SNAPSHOT.providers;
+  /* Give the snapshot plausible upcoming times so the preview matches the
+     shape of live data (each provider gets a different weekday slot). */
+  function seedNextSlots(list){
+    var hours = [9, 10.5, 13.5, 15.5, 17], pool = [], day = 0;
+    while (pool.length < list.length + 2 && day < 8) {
+      day++;
+      var d = new Date(); d.setDate(d.getDate() + day);
+      if (d.getDay() === 0 || d.getDay() === 6) continue;
+      for (var i = 0; i < hours.length; i++) {
+        var t = new Date(d);
+        t.setHours(Math.floor(hours[i]), (hours[i] % 1) * 60, 0, 0);
+        pool.push(t.toISOString());
+      }
+    }
+    list.forEach(function(p, i){
+      if (!p.next_slot) p.next_slot = { id:"preview-next-"+i, starts_at: pool[i % pool.length] };
+    });
+    return list;
+  }
+
+  /* boot: render the snapshot at once, then upgrade to live data. */
+  renderCats();
+  state.providers = seedNextSlots(SNAPSHOT.providers);
   renderProviders();
   renderStats(SNAPSHOT.stats);
 
-  Promise.all([
-    get("/providers?limit=12"),
-    loadStats()
-  ]).then(function (res) {
-    var pr = res[0], statsOk = res[1];
-    var live = !!(pr && pr.ok && pr.body.providers && pr.body.providers.length);
-    if (live) { state.providers = pr.body.providers; renderProviders(); }
-    setChip(live && statsOk);
+  Promise.all([refreshProviders(), loadStats()]).then(function(res){
+    setChip(res[0] && res[1]);
   });
 })();
 </script>

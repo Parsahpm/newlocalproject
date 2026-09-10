@@ -11,6 +11,7 @@
     "fn:deploy": "supabase functions deploy omnibook-api --no-verify-jwt"
   },
   "devDependencies": {
+    "playwright": "^1.49.1",
     "wrangler": "^4.20.0"
   }
 }
