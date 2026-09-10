@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "omnibook",
+  "main": "workers/gateway/src/index.ts",
+  "compatibility_date": "2026-09-05",
+  "observability": { "enabled": true },
+
+  // Static site. Assets are served first; anything unmatched (i.e. /api/*)
+  // falls through to the Worker.
+  "assets": {
+    "directory": "./web",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+
+  // Public, non-secret: the Supabase Edge Function the gateway proxies to.
+  "vars": {
+    "API_ORIGIN": "https://xhbhlpegfnswhbodhbqp.supabase.co/functions/v1/omnibook-api"
+  }
+}
